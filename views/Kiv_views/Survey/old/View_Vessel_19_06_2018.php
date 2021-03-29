@@ -1,0 +1,608 @@
+
+<!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header ">
+<button type="button" class="btn bg-primary btn-flat margin"> Form 1 </button>
+      <!-- Important; the following two ol class has to be kept, its not mistake -->
+      <ol class="breadcrumb">
+      <ol class="breadcrumb">
+        <li><a href="<?php echo $site_url."/Survey/SurveyHome"?>"><i class="fa fa-dashboard"></i>  <span class="badge bg-blue"> Home </span> </a></li>
+        <!--<li><a href="#"></i>  <span class="badge bg-blue"> Page1 </span> </a></li>
+        <li><a href="#"><span class="badge bg-blue"> Page2  </span></a></li>-->
+      </ol> </ol> 
+      <!-- End of two ol -->
+    </section>
+    <!-- Bread Crumb Section Ends Here .... -->
+    <!-- Header Section ends here -->
+    <!-- Main content -->
+    <section class="content">
+   <!-- Main Content starts here -->
+
+     <div class="row custom-inner">
+      <!-- start inner custom row -->
+
+        <div class="col-md-10">
+          <div class="box box-solid">
+          <div class="box-header with-border">                                                                                                                                         
+              <h3 class="box-title" style="color: #00f">Form 1 </h3>
+              <p>  See Rule 5 (1) - Form for expressing the intention to build a new vessel  </p>
+          </div>
+          <?php
+	//----------- Vessel Details -----------//
+	foreach($vessel_details_viewpage as $res_vessel)
+	{
+		$vessel_name=$res_vessel['vessel_name'];
+		$vessel_length=$res_vessel['vessel_length'];
+		$vessel_breadth=$res_vessel['vessel_breadth'];
+		$vessel_depth=$res_vessel['vessel_depth'];
+		$vessel_expected_tonnage=$res_vessel['vessel_expected_tonnage'];
+		
+		$vessel_category_id=$res_vessel['vessel_category_id'];
+		$vessel_subcategory_id=$res_vessel['vessel_subcategory_id'];
+		$vessel_type_id=$res_vessel['vessel_type_id'];
+		$vessel_subtype_id=$res_vessel['vessel_subtype_id'];
+                $sewage_treatment=$res_vessel['sewage_treatment'];
+            
+                $solid_waste=$res_vessel['solid_waste'];
+                $sound_pollution=$res_vessel['sound_pollution'];
+                $water_consumption=$res_vessel['water_consumption'];
+                $source_of_water=$res_vessel['source_of_water'];
+                
+                if($sewage_treatment!=0)
+                { $res_sewage_treatment='YES'; }
+                    else { $res_sewage_treatment='NO'; }
+                    
+                    if($solid_waste!=0)
+                        { $res_solid_waste='YES'; }
+                    else { $res_solid_waste='NO'; }  
+                    
+                if($sound_pollution!=0)
+                { $res_sound_pollution='YES'; }
+                    else { $res_sound_pollution='NO'; } 
+                 if( $source_of_water!=0)  
+                 {
+                     $get_sourceof_water				= 	$this->Function_model->get_sourceof_water($source_of_water);
+			 $data['get_sourceof_water']	=	$get_sourceof_water;
+			$source_of_water_name			=	$get_sourceof_water[0]['sourceofwater_name'];
+                 }
+               
+                
+		if($vessel_category_id!=0)
+		{
+			$vessel_category_id				= 	$this->Survey_model->get_vessel_category_id($vessel_category_id);
+			 $data['vessel_category_id']	=	$vessel_category_id;
+			$vessel_category_name			=	$vessel_category_id[0]['vesselcategory_name'];
+		}
+		else
+		{
+			$vessel_category_name='-';
+		}
+		
+		if($vessel_category_id!=0)
+		{
+			$vessel_subcategory_id			= 	$this->Survey_model->get_vessel_subcategory_id($vessel_subcategory_id);
+			 $data['vessel_subcategory_id']	=	$vessel_subcategory_id;
+			$vessel_subcategory_name		=	$vessel_subcategory_id[0]['vessel_subcategory_name'];
+		}
+		else
+		{
+			$vessel_subcategory_name='-';
+		}
+		
+		if($vessel_type_id!=0)
+		{
+			$vessel_type_id				= 	$this->Survey_model->get_vessel_type_id($vessel_type_id);
+			 $data['vessel_type_id']	=	$vessel_type_id;
+			$vesseltype_name			=	$vessel_type_id[0]['vesseltype_name'];
+		}
+		else
+		{
+			$vesseltype_name='-';
+		}
+		
+			if($vessel_subtype_id!=0)
+		{
+			$vessel_subtype_id			= 	$this->Survey_model->get_vessel_subtype_id($vessel_subtype_id);
+			$data['vessel_subtype_id']	=	$vessel_subtype_id;
+			$vessel_subtype_name		=	$vessel_subtype_id[0]['vessel_subtype_name'];
+		}
+		else
+		{
+			$vessel_subtype_name='-';
+		}
+	}
+	foreach($owner_details as $res_owner)
+	{
+		$owner_name=$res_owner['user_name'];
+		$owner_address=$res_owner['user_address'];
+	}
+			   
+ //----------- Hull Details -----------//
+	foreach($hull_details as $res_hull)
+	{
+		$hull_name=$res_hull['hull_name'];
+		$hull_address=$res_hull['hull_address'];
+		$hullmaterial_id=$res_hull['hullmaterial_id'];
+		if($hullmaterial_id!=0)
+		{
+			$get_hullmaterial_id			= 	$this->Survey_model->get_hullmaterial_name($hullmaterial_id);
+			$data['get_hullmaterial_id']	=	$get_hullmaterial_id;
+			$hullmaterial_name		=	$get_hullmaterial_id[0]['hullmaterial_name'];
+		}
+		else{
+			$hullmaterial_name='-';
+		}
+		$deck_status_id=$res_hull['deck_status_id'];
+		if($deck_status_id=='1')
+		{
+			$deck_msg='YES';
+		}
+		else{
+			$deck_msg='No';
+		}
+		$bulk_heads=$res_hull['bulk_heads'];
+		$bulk_head_placement=$res_hull['bulk_head_placement'];
+		if($bulk_head_placement!=0)
+		{
+			$bulk_head_placement_name			= 	$this->Survey_model->get_bulk_head_placement_name($bulk_head_placement);
+			$data['bulk_head_placement_name']	=	$bulk_head_placement_name;
+			$location_name		=	$bulk_head_placement_name[0]['location_name'];
+		}
+		else{
+			$location_name='-';
+		}
+		$bulk_head_thickness=$res_hull['bulk_head_thickness'];
+		$hullplating_material_id=$res_hull['hullplating_material_id'];
+		if($hullplating_material_id!=0)
+		{
+			$hullplating_material_id	= 	$this->Survey_model->get_hullplating_material_name($hullplating_material_id);
+			$data['hullplating_material_id']	=	$hullplating_material_id;
+			$hullplating_material_name		=	$hullplating_material_id[0]['hullplating_material_name'];
+		}
+		else{
+			$hullplating_material_name='-';
+		}
+		$hull_plating_material_thickness=$res_hull['hull_plating_material_thickness'];
+		
+	}	
+			   
+	//----------- Engine Details -----------//	
+    //----------- Equipment Details -----------//	
+			   foreach($equipment_details as $res_equipment)
+			   {
+				   $equipment_id=$res_equipment['equipment_id'];
+				   $vessel_id=$res_equipment['vessel_id'];
+				   
+			   }
+			   //----anchor port-----//
+			$get_anchor_port	= 	$this->Function_model->get_anchor_port($vessel_id,1);
+			$data['get_anchor_port']	=	$get_anchor_port;
+			 foreach($get_anchor_port as $res_anchor_port) 
+			  {
+				  $weight_anchor_port=$res_anchor_port['weight'];
+				   $material_id_anchor_port=$res_anchor_port['material_id'];
+				  if($material_id_anchor_port!=0)
+				  {
+					  $equipment_material	= 	$this->Function_model->get_equipment_material_name($material_id_anchor_port);
+					$data['equipment_material']	=	$equipment_material;
+					  $equipment_material_name=$equipment_material[0]['equipment_material_name'];
+				  }
+			  }
+                          
+                          //-------Anchor Startboard---------//
+                          $anchor_startboard= 	$this->Function_model->get_anchor_startboard($vessel_id,2);
+                          $data['anchor_startboard']	=	$anchor_startboard;
+                          
+                          foreach($anchor_startboard as $res_star_board) 
+			  {
+				  $weight_star_board=$res_star_board['weight'];
+				   $material_id_star_board=$res_star_board['material_id'];
+				  if($material_id_star_board!=0)
+				  {
+					  $equipment_material	= 	$this->Function_model->get_equipment_material_name($material_id_star_board);
+					$data['equipment_material']	=	$equipment_material;
+					  $equipment_material_starboard_name=$equipment_material[0]['equipment_material_name'];
+				  }
+			  } 
+//-------Anchor Spare---------//
+                          $get_anchor_spare= 	$this->Function_model->get_anchor_spare($vessel_id,3);
+                          $data['anchor_spare']	=	$get_anchor_spare;
+                          
+                          foreach($get_anchor_spare as $res_anchor_spare) 
+			  {
+				  $weight_anchor_spare=$res_anchor_spare['weight'];
+				   $material_id_anchor_spare=$res_anchor_spare['material_id'];
+				  if($material_id_anchor_spare!=0)
+				  {
+					  $equipment_material	= 	$this->Function_model->get_equipment_material_name($material_id_anchor_spare);
+					$data['equipment_material']	=	$equipment_material;
+					  $equipment_material_spare_name=$equipment_material[0]['equipment_material_name'];
+				  }
+			  }
+                          
+                          
+                      //-------Chain Port---------//
+                          $get_chain_port= 	$this->Function_model->get_chain_port($vessel_id,4);
+                          $data['get_chain_port']	=	$get_chain_port;
+                          
+                          foreach($get_chain_port as $res_chain_port) 
+			  {
+				$size_chain_port=$res_chain_port['size'];
+				$length_chain_port=$res_chain_port['length'];
+				$equipment_type_id_chain_port=$res_chain_port['equipment_type_id'];
+
+				   
+				  if($equipment_type_id_chain_port!=0)
+				  {
+					  $equipment_type_chainport	= 	$this->Function_model->get_chainporttype_name($equipment_type_id_chain_port);
+					$data['equipment_type_chain_port']	=	$equipment_type_chainport;
+					  $type_name_chain_port=$equipment_type_chainport[0]['chainporttype_name'];
+				  }
+			  }    
+                           //-------Chain startboard---------//
+                          $get_chain_startboard= 	$this->Function_model->get_chain_startboard($vessel_id,5);
+                          $data['chain_startboard']	=	$get_chain_startboard;
+                          
+                          foreach($get_chain_startboard as $res_chain_startboard) 
+			  {
+				  $size_chain_startboard=$res_chain_startboard['size'];
+				$length_chain_startboard=$res_chain_startboard['length'];
+				$equipment_type_id_chain_startboard=$res_chain_startboard['equipment_type_id'];
+
+				   
+				  if($equipment_type_id_chain_startboard!=0)
+				  {
+					  $equipment_type_chainstartboard	= 	$this->Function_model->get_chainporttype_name($equipment_type_id_chain_startboard);
+					$data['equipment_type_chain_startboard']	=	$equipment_type_chainstartboard;
+					  $type_name_chain_startboard=$equipment_type_chainstartboard[0]['chainporttype_name'];
+				  }
+			  }
+                         
+                          
+                 //------- Rope---------//
+                          $get_chain_Rope= 	$this->Function_model->get_chain_Rope($vessel_id,6);
+                          $data['chain_Rope']	=	$get_chain_Rope;
+                          
+                          foreach($get_chain_Rope as $res_chain_Rope) 
+			  {
+				  $size_chain_Rope=$res_chain_Rope['size'];
+				$number_chain_Rope=$res_chain_Rope['number'];
+				  $material_id_Rope=$res_chain_Rope['material_id'];
+				  if($material_id_Rope!=0)
+				  {
+					  $equipment_material_rope	= 	$this->Function_model->get_equipment_material_name($material_id_Rope);
+					$data['equipment_material_rope']	=	$equipment_material_rope;
+					  $equipment_material_rope_name=$equipment_material_rope[0]['equipment_material_name'];
+				  }
+			  }  
+                            //------- Search Light---------//
+                          $get_searchlight= 	$this->Function_model->get_searchlight($vessel_id,7);
+                          $data['searchlight']	=	$get_searchlight;
+                          
+                          foreach($get_searchlight as $res_searchlight) 
+			  {
+				  $size_searchlight=$res_searchlight['size'];
+				$power_searchlight=$res_searchlight['power'];
+				$number_searchlight=$res_searchlight['number'];
+				if($size_searchlight!=0)
+				  {
+					  $searchlight_size	= 	$this->Function_model->get_searchlight_size($size_searchlight);
+					$data['searchlight_size']	=	$searchlight_size;
+					  $searchlight_size_name=$searchlight_size[0]['searchlight_size_name'];
+				  }
+				 
+			  }
+                         //------------- Life Buoys----------//
+                          $get_lifebuoys= 	$this->Function_model->get_lifebuoys($vessel_id,8);
+                          $data['get_lifebuoys']	=	$get_lifebuoys;
+                          $number1=$get_lifebuoys[0]['number'];
+                          if($number1!=0)
+                          {
+                              $number_lifebuoys=$number1;
+                          }
+                          else
+                             {
+                               $number_lifebuoys='-'; 
+                          }           
+                                  
+                                
+     
+
+                          //---------- Buoyant apparatus ---------//
+                          $get_buoyant_apparatus= 	$this->Function_model->get_buoyant_apparatus($vessel_id,9);
+                          $data['get_buoyant_apparatus']	=	$get_buoyant_apparatus;
+                          
+                           $number2=$get_buoyant_apparatus[0]['number'];
+                          if($number1!=0)
+                          {
+                              $number_buoyant_apparatus=$number2;
+                          }
+                          else
+                             {
+                               $number_buoyant_apparatus='-'; 
+                          }   
+                          
+                          //-----Navigation Light Particulars--------//
+                          $navigation_light= 	$this->Function_model->get_navigation_light_view($vessel_id);
+                           $data['navigation_light']	=	$navigation_light;
+                           
+                           
+                          //-----Sound Signals--------//
+                          $sound_signal= 	$this->Function_model->get_sound_signal_view($vessel_id);
+                           $data['sound_signal']	=	$sound_signal;
+                           
+                         //-----Fire Pumps---//  
+                         
+                          $get_fire_pumps= 	$this->Function_model->get_fire_pumps($vessel_id,13);
+                          $data['get_fire_pumps']	=	$get_fire_pumps;
+                          
+                          foreach($get_fire_pumps as $res_fire_pumps) 
+			  {
+				  $size_fire_pumps=$res_fire_pumps['size'];
+				$number_fire_pumps=$res_fire_pumps['number'];
+				  $capacity_fire_pumps=$res_fire_pumps['capacity'];
+				  if($size_fire_pumps!=0)
+				  {
+					  $firepump_size	= 	$this->Function_model->get_firepump_size($size_fire_pumps);
+					$data['firepump_size']	=	$firepump_size;
+					$sizename_fire_pumps=$firepump_size[0]['firepumpsize_name'];
+				  }
+			  } 
+                           //-----Fire Mains---//  
+                          $get_fire_mains= 	$this->Function_model->get_fire_mains($vessel_id,14);
+                          $data['get_fire_mains']	=	$get_fire_mains;
+                          
+                          foreach($get_fire_mains as $res_fire_mains) 
+			  {
+				  $diameter_fire_mains=$res_fire_mains['diameter'];
+				$material_id_fire_mains=$res_fire_mains['material_id'];
+				 
+				  if($material_id_fire_mains!=0)
+				  {
+					   $equipment_material_firemain	= 	$this->Function_model->get_equipment_material_name($material_id_fire_mains);
+					$data['equipment_material_firemain']	=	$equipment_material_firemain;
+					  $equipment_material_firemains=$equipment_material_firemain[0]['equipment_material_name'];
+				  }
+			  }  
+                         //-----Hydrants---//  
+                          $get_hydrants= 	$this->Function_model->get_hydrants($vessel_id,15);
+                          $data['get_hydrants']	=	$get_hydrants;  
+                          $hydrant_number=$get_hydrants[0]['number'];
+                          //-----Hose---//  
+                          $get_hose= 	$this->Function_model->get_hose($vessel_id,16);
+                          $data['get_hose']	=	$get_hose;  
+                          $hose_number=$get_hose[0]['number'];
+                          //-------------- portable fire extinguisher-----------------//tbl_kiv_fire_extinguisher_details
+                          
+                           $get_portable_fire= 	$this->Function_model->get_fire_extinguisher_details($vessel_id);
+                          $data['get_portable_fire']	=	$get_portable_fire;  
+                          
+			?>
+          <div class="box-body">
+          <table id="example3" class="table table-bordered table-striped">
+          <!---------------------- Vessel Details--------------------- -->
+			<tr> <td colspan="4"><font color="#74c601"> <b> 1. Vessel Details </b> </font> </td> </tr>
+            <tr> <td> 1. Vessel Name </td> <td> <font color="#7a29c6"> <?php echo $vessel_name; ?> </font> </td> <td>Ref: Number </td> <td> <font color="#7a29c6"> 1234/2018 </font></td> </tr>
+            <tr> <td> 2. Owner Name </td> <td> <font color="#7a29c6"> <?php echo $owner_name; ?> </font></td> <td>Owner Address </td> <td><font color="#7a29c6"> <?php echo $owner_address; ?>   </font> </td> </tr>
+            <tr> <td> 3. Length:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"> <?php echo $vessel_length; ?>m </font> </td> <td> Breadth:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $vessel_breadth; ?>m </font></td> 
+            <td>Depth:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $vessel_depth; ?>m</font> </td> <td> Tonnage:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $vessel_expected_tonnage; ?> ton</font></td> </tr>
+            <tr> <td> 4. Type</td> <td><font color="#7a29c6"> <?php echo $vesseltype_name; ?></font></td> <td>Sub type </td> <td><font color="#7a29c6"> <?php echo $vessel_subtype_name; ?></font></td> </tr>
+            <tr> <td> 5. Category</td> <td><font color="#7a29c6"> <?php echo $vessel_category_name; ?> </font></td> <td> Sub category</td> <td><font color="#7a29c6"> <?php echo $vessel_subcategory_name; ?></font></td> </tr>
+            
+             <!---------------------- Hull Details--------------------- -->
+            <tr> <td colspan="4"><font color="#74c601"> <b> 2. Particulars of Hull </b> </font> </td> </tr>
+            <tr> <td> a. Builder name</td> <td><font color="#7a29c6"> <?php echo $hull_name; ?></font></td> <td> Builders address</td> <td><font color="#7a29c6"> <?php echo $hull_address; ?></font></td> </tr>
+            <tr> <td> b. Material of hull</td> <td colspan="3"><font color="#7a29c6"> <?php echo $hullmaterial_name; ?></font></td> </tr>
+            <tr> <td> c. Whether with a deck above freeboard deck</td> <td colspan="3"><font color="#7a29c6"> <?php echo $deck_msg; ?> </font></td> </tr>
+            <tr> <td> d. Number of bulk head:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $bulk_heads; ?></font> </td> <td> Placement:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $location_name; ?> </font></td> 
+            <td colspan="2">Thickness:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $bulk_head_thickness; ?>&nbsp;mm</font> </td>  </tr>
+            <tr> <td> e. Hull plating material</td> <td><font color="#7a29c6"> <?php echo $hullplating_material_name; ?></font></td> <td> Thickness </td> <td><font color="#7a29c6"> <?php echo $hull_plating_material_thickness; ?>&nbsp;mm</font></td> </tr>
+            
+             <!---------------------- Engine Details--------------------- -->
+            
+            <tr> <td colspan="4"><font color="#74c601"> <b> 3. Particulars of propulsion of engines </b> </font> </td> </tr>
+            
+         
+            <?php 
+			  $i=1;
+			  foreach($engine_details as $res_engine) {
+				  $bhp=$res_engine['bhp'];
+				  $manufacturer_name=$res_engine['manufacturer_name'];
+				  $manufacturer_brand=$res_engine['manufacturer_brand'];
+				  $propulsion_diameter=$res_engine['propulsion_diameter'];
+				  $gear_number=$res_engine['gear_number'];
+				  
+				   $engine_model_id=$res_engine['engine_model_id'];
+				  if($engine_model_id!=0)
+				  {
+					  $get_modelnumber_name	= 	$this->Function_model->get_modelnumber_name($engine_model_id);
+				  	$data['get_modelnumber_name']	=	$get_modelnumber_name;
+				  	$modelnumber_name		=	$get_modelnumber_name[0]['modelnumber_name'];
+				  }
+				  else{
+					  $modelnumber_name='-';
+				  }
+				  $engine_type_id=$res_engine['engine_type_id'];
+				  
+				  if($engine_type_id!=0)
+				  {
+					$get_enginetype_name	= 	$this->Function_model->get_enginetype_name($engine_type_id);
+				  	$data['get_enginetype_name']	=	$get_enginetype_name;
+				  	$enginetype_name		=	$get_enginetype_name[0]['enginetype_name'];
+				  }
+				  else{
+					  $enginetype_name='-';
+				  }
+				   $gear_type_id=$res_engine['gear_type_id'];
+				   if($gear_type_id!=0)
+				  {
+					$get_geartype_name	= 	$this->Function_model->get_geartype_name($gear_type_id);
+				  	$data['get_geartype_name']	=	$get_geartype_name;
+				  	$geartype_name		=	$get_geartype_name[0]['geartype_name'];
+				  }
+				  else{
+					  $geartype_name='-';
+				  }
+				  
+				 
+				   $propulsion_material_id=$res_engine['propulsion_material_id'];
+                                    if($propulsion_material_id!=0)
+				  {
+                              
+				$get_propulsionshaft_material_name= 	$this->Function_model->get_propulsionshaft_material_name($propulsion_material_id);
+				  	$data['get_propulsionshaft_material_name']	=	$get_propulsionshaft_material_name;
+				  	$propulsionshaft_material_name		=	$get_propulsionshaft_material_name[0]['propulsionshaft_material_name'];
+				  }
+				  else{
+					  $propulsionshaft_material_name='-';
+				  }
+                                 
+				
+			?>
+	
+			<tr> <td colspan="4"><font color="#7a29c6"> <b> Set number <?php echo $i; ?> </b> </font> </td> </tr>
+			 <tr> <td> a. BHP</td> <td><font color="#7a29c6"> <?php echo $bhp;  ?></font></td> <td> </td> <td><font color="#7a29c6"> </font></td> </tr>
+			 <tr> <td> b. Manufacturers Name</td> <td><font color="#7a29c6"> <?php echo $manufacturer_name; ?></font></td> <td> Brand</td> <td><font color="#7a29c6"><?php echo $manufacturer_brand; ?> </font></td> </tr>
+			 <tr> <td> c. Model number</td> <td><font color="#7a29c6"><?php echo $modelnumber_name; ?> </font></td> <td> d. Type of engine</td> <td><font color="#7a29c6"> <?php echo $enginetype_name; ?> </font></td> </tr>
+			 <tr> <td> e. Diameter of propulsion shaft</td> <td><font color="#7a29c6"> <?php echo $propulsion_diameter; ?>&nbsp;mm</font></td> <td> Material of propulsion shaft</td> <td><font color="#7a29c6"> <?php
+                          
+echo $propulsionshaft_material_name; ?> </font></td> </tr>
+            <tr><td> f. Type of gear</td> <td><font color="#7a29c6"><?php echo $geartype_name; ?> </font></td> <td> Number of gear </td> <td><font color="#7a29c6"><?php echo $gear_number; ?> </font></td> </tr>
+	
+ 				 <?php
+				  $i++;
+			  }  ?>
+            
+            <?php
+			 
+			  ?>
+            
+            
+             <!---------------------- Equipment Details--------------------- -->
+            <tr> <td colspan="4"><font color="#74c601"> <b> 4. Particulars of Equipments </b> </font> </td> </tr>
+            <tr> <td colspan="4"><font color="">  a. Anchor  </font> </td> </tr>
+            <tr> <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Port weight</td> 
+              <td><font color="#7a29c6"> <?php echo $weight_anchor_port; ?>&nbsp;kg</font></td> <td> Port material</td> <td><font color="#7a29c6"> <?php echo $equipment_material_name;?></font></td> </tr>
+            <tr> <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starboard weight</td> 
+              <td><font color="#7a29c6"> <?php echo $weight_star_board; ?>&nbsp;kg</font></td> <td> </td> <td><font color="#7a29c6"> <?php echo $equipment_material_starboard_name;?></font></td> </tr>
+            <tr> <td> b. Anchor spare weight</td> <td><font color="#7a29c6"> <?php echo $weight_anchor_spare; ?>&nbsp;kg</font></td> <td> Anchor spare material</td> 
+              <td><font color="#7a29c6"> <?php echo $equipment_material_spare_name; ?></font></td> </tr>
+            <tr> <td colspan="4"><font color=""> c. Chain Port  </font> </td> </tr>
+            
+            
+            <tr> <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Size:&nbsp;&nbsp;&nbsp;
+            <font color="#7a29c6"><?php echo $size_chain_port; ?>&nbsp;mm </font> </td> <td> Type:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $type_name_chain_port;?> </font></td> 
+            <td colspan="2">Length:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $length_chain_port; ?>&nbsp;m</font> </td>  </tr>
+            <tr> <td colspan="4"><font color="">  d. Chain Starboard  </font> </td> </tr>
+            
+            
+            <tr> <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Size:&nbsp;&nbsp;&nbsp;
+              <font color="#7a29c6"><?php echo $size_chain_startboard; ?>&nbsp;m</font> </td> <td> Type:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $type_name_chain_startboard; ?> </font></td> 
+                 <td colspan="2">Length:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $length_chain_startboard; ?></font> </td>  </tr>
+            
+            
+            <tr> <td> e. Rope Size:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $size_chain_Rope; ?> </font> </td> <td> Material:&nbsp;&nbsp;&nbsp;
+              <font color="#7a29c6"><?php echo $equipment_material_rope_name; ?> </font></td> 
+              <td colspan="2">Number:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $number_chain_Rope; ?></font> </td>  </tr>
+            
+            
+            
+                 <tr> <td> f. Search Light Size:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $searchlight_size_name; ?> </font> </td> <td> Power:&nbsp;&nbsp;&nbsp;
+                  <font color="#7a29c6"><?php echo $power_searchlight; ?> </font></td> 
+                 <td colspan="2">Number:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $number_searchlight; ?></font> </td>  </tr>
+                 
+                 
+            <tr> <td> g. Number of life buoys</td> <td><font color="#7a29c6"> <?php echo $number_lifebuoys; ?></font></td> 
+              <td> Buoyant apparatus with self ignited light with buoyant</td> <td><font color="#7a29c6"> <?php echo $number_buoyant_apparatus; ?> </font></td> </tr>
+            <tr> <td> h.Navigation lights giving particulars </td> <td><font color="#7a29c6">
+ <?php  foreach ($navigation_light as $result_nav)
+                           {
+                               $list1=$result_nav['equipment_id']; 
+                               if($list1>9)
+                               {
+                                $nav_light_euipment= 	$this->Function_model->get_nav_light_euipment($list1);
+                           $data['nav_light_euipment']	=	$nav_light_euipment;   
+                          echo  $nav_equip_name=$nav_light_euipment[0]['equipment_name'].',';
+                               }
+                          } ?></font></td> 
+              <td> i. Sound signals : Mechanical or Electrical</td> <td><font color="#7a29c6"> <?php  foreach ($sound_signal as $result_sound)
+                           {
+                               $list2=$result_sound['equipment_id']; 
+                               if($list2>9)
+                               {
+                                $get_sound_signal= 	$this->Function_model->get_nav_light_euipment($list2);
+                           $data['get_sound_signal']	=	$get_sound_signal;   
+                           echo $sound_equip_name=$get_sound_signal[0]['equipment_name'].',';
+                               }
+                          } 
+                           ?></font></td> </tr>
+			 <!---------------------- Fire Appliance Details--------------------- -->
+              <tr> <td colspan="4"><font color="#74c601"> <b> 5. Particulars of Fire Appliances </b> </font> </td> </tr>
+               <tr> <td colspan="4"><font color=""> a. Fire pumps  </font> </td> </tr>
+            <tr> <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number:&nbsp;&nbsp;&nbsp;
+              <font color="#7a29c6"><?php echo $number_fire_pumps; ?> </font> </td> <td> Size:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $sizename_fire_pumps;?> </font></td> 
+                 <td colspan="2">Capacity:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $capacity_fire_pumps; ?></font> </td>  </tr>
+            
+            
+                <tr> <td colspan="4"><font color=""> b. Fire Mains  </font> </td> </tr>
+            <tr> <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diameter:&nbsp;&nbsp;&nbsp;
+              <font color="#7a29c6"><?php echo $diameter_fire_mains; ?></font> </td> <td> Material:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $equipment_material_firemains;?> </font></td> 
+                 <td colspan="2">Number of hydrants:&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><?php echo $hydrant_number; ?></font> </td>  </tr> 
+            <tr><td> f. Number of hose</td> <td><font color="#7a29c6"><?php echo $hose_number; ?></font></td> <td> Nozzles </td> <td><font color="#7a29c6">Spray Type, Jet Type </font></td> </tr>
+            
+             <!---------------------- Portable Fire Extinguishers Details--------------------- -->
+            <tr> <td colspan="4"><font color="#74c601"> <b> 6. Particulars of Portable Fire Extinguishers </b> </font> </td> </tr>
+            
+                <?php 
+                $i=1;
+                foreach ($get_portable_fire as $result_portable) {
+                    
+                    $ext_id= $result_portable['fire_extinguisher_type_id'];
+                      $get_ext_type	= 	$this->Function_model->get_portable_fire_extinguisher_name($ext_id);
+				  	$data['get_ext_type']	=	$get_ext_type;
+				  	$portable_fire_extinguisher_name		=	$get_ext_type[0]['portable_fire_extinguisher_name'];
+                    
+                    ?>
+                <tr> <td> </td> 
+                    <td> <?php echo $i; ?>&nbsp; <?php echo $portable_fire_extinguisher_name;  ?></td> 
+                <td colspan="2"><font color="#7a29c6"><?php echo $result_portable['fire_extinguisher_number']; ?> </font></td>
+                <?php $i++; } ?>
+            </tr>
+            
+             <tr> <td colspan="4"><font color="#74c601"> <b>  </b> </font> </td> </tr>
+             <tr> <td>  11. Particulars of communication equipments </td> <td colspan="3"><font color="#7a29c6"> Mobile, Walkie Talkie, VHF, UHF </font></td> </tr>
+             <tr> <td>  12. Particulars of navigation equipments </td> <td colspan="3"> <font color="#7a29c6"><font color="#7a29c6">GPS, Radar, Binocular, Compass </font></td> </tr>
+             <tr> <td>  13. Particulars of pollution control devices </td> <td colspan="3"> <font color="#7a29c6">device1, device2, device3 </font></td> </tr>
+             <tr> <td class="div300">14. Sewage treatment and disposal :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><b> <?php echo $res_sewage_treatment;?> </b></font></td>
+             <td class="div300">15. Solid waste processing and disposal :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#7a29c6"> <b> <?php echo $res_solid_waste; ?> </b> </font></td>
+              <td class="div300" colspan="2">16. Sound pollution control :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#7a29c6"><b> <?php echo $res_sound_pollution; ?> </b></font></td> </tr>
+             <tr> <td> 17. Water consumption per day</td> <td><font color="#7a29c6"> <?php echo $water_consumption; ?>&nbsp;ltr </font></td> <td>18. Source of Water </td> <td><font color="#7a29c6"><?php echo $source_of_water_name; ?></font></td> </tr>
+            
+            <!---------------------- Documents Details--------------------- -->
+            <tr> <td colspan="4"><font color="#74c601"> <b> 7. Documents </b> </font> </td> </tr>
+            <tr> <td colspan="3"> i. General Arrangments plans, structural drawings, freeboard marking, shell expansion, machinery and machinery layout, propeller, shafting, gears and steering plans, pipeline such as bilge and ballast, oil transfer etc</td> 
+              <td> <font color="#7a29c6"> <a href="#"> <b> Yes </b> </a> </font></td> </tr>
+            <tr> <td colspan="3"> ii. Particulars iof wheel house, crew accomodation, passengers, galleys, stores/service place etc.</td> 
+              <td> <font color="#7a29c6"> <a href="#"> <b> Yes </b> </a> </font></td> </tr>
+            <tr> <td colspan="3"> iii. Particulars of ventilation, charge of air for engine room</td> 
+              <td> <font color="#7a29c6">  <b> No </b>  </font></td> </tr>
+            <tr> <td colspan="3"> iv. Builders yard accredition certificate</td> 
+              <td> <font color="#7a29c6"> <a href="#"> <b> Yes </b> </a> </font></td> </tr>
+            <tr> <td colspan="3"> v. Preliminary stability calcualtion</td> 
+              <td> <font color="#7a29c6">  <b> No </b>  </font></td> </tr>
+          </table>
+          </div>
+
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+     <!-- End of Row Custom-Inner -->
+    <!-- Main Content Ends here -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->

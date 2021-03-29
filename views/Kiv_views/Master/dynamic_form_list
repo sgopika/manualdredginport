@@ -1,0 +1,82 @@
+<!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+     <h1>
+<button type="button" class="btn bg-primary btn-flat margin">KIV PORT</button>
+      </h1>
+      <!-- Important; the following two ol class has to be kept, its not mistake -->
+      <ol class="breadcrumb">
+      <ol class="breadcrumb">
+        <li><a href="<?php //echo $site_url."/Master/MasterHome"?>"><i class="fa fa-dashboard"></i>  <span class="badge bg-blue"> Back </span> </a></li>
+        <!--<li><a href="#"></i>  <span class="badge bg-blue"> Page1 </span> </a></li>
+        <li><a href="#"><span class="badge bg-blue"> Page2  </span></a></li>-->
+      </ol> </ol> 
+      <!-- End of two ol -->
+    </section>
+    <!-- Bread Crumb Section Ends Here .... -->
+    <!-- Header Section ends here -->
+    <!-- Main content -->
+    <section class="content">
+   <!-- Main Content starts here -->
+     <div class="row custom-inner">
+         
+      <div class="col-md-8">
+        <div class="box box-primary">
+        <div class="box-header with-border box-primary">
+          <h4 class="box-title">Form Dynamic</h4>
+        </div>
+        <!-- /.box-header --> <div id="msgDiv" class="alert alert-info alert-dismissible" style="display:none"></div> 
+       
+
+        <?php 
+        if($this->session->flashdata('msg'))
+          {
+            echo $this->session->flashdata('msg');
+          }
+        ?>
+               
+          
+        <div class="box-body">
+
+ <?php 
+    $attributes = array("class" => "form-horizontal", "id" => "dynamic_form", "name" => "dynamic_form" , "novalidate");
+    
+    if(isset($editres)){
+          echo form_open("Master/add_dynamic_form", $attributes);
+    } else {
+      echo form_open("Master/add_dynamic_form", $attributes);
+ }?>
+
+
+
+
+
+
+
+
+ <div id="label_lists"></div>
+
+             
+       
+        <!-- end of  /.box-body -->
+        <div class="box-footer">
+          <input type="submit" class="btn btn-info pull-right" name="dynamic_ins" value="Save Details" id="dynamic_ins" onClick="ins_dynamicform()">  
+        </div>
+          <?php  echo form_close(); ?>
+        
+        <!-- end of box footer -->
+      </div>
+      <!--end of  /.box -->
+      
+          </div>
+       <!-- col-md-9 ends here -->
+ 
+     </div>
+     <!-- End of Row Custom-Inner -->
+      
+  <!-- Main Content Ends here -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
